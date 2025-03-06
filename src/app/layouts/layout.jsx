@@ -1,4 +1,3 @@
-
 import dynamic from "next/dynamic";
 
 const Header = dynamic(() => import("@/app/components/common/Header/Header"));
