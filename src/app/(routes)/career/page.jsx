@@ -2,7 +2,7 @@ import Career from "@/app/components/ui/Career/Career";
 import Layout from "@/app/layouts/layout";
 ;
 
-const page = () => {
+const Page = () => {
   return (
     <Layout>
       <Career/>
@@ -10,4 +10,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

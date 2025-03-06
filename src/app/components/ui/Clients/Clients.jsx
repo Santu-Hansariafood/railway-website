@@ -5,8 +5,12 @@ import { useTransition, a } from "@react-spring/web";
 
 const Client = ({ data }) => {
   const [columns, setColumns] = useState(2);
+  const ref = useRef();
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
+    if (typeof window === "undefined") return; // Prevent SSR errors
+
     const updateColumns = () => {
       if (window.innerWidth >= 1500) {
         setColumns(5);
@@ -24,13 +28,12 @@ const Client = ({ data }) => {
     return () => window.removeEventListener("resize", updateColumns);
   }, []);
 
-  const ref = useRef();
-  const [width, setWidth] = useState(0);
-
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const handleResize = () => {
       if (ref.current) {
-        setWidth(ref.current.offsetWidth);
+        setWidth(ref.current.offsetWidth || 0); // Prevent undefined width
       }
     };
 
@@ -39,9 +42,14 @@ const Client = ({ data }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Ensure `data` is always an array
+  const safeData = Array.isArray(data) ? data : [];
+
   const [heights, gridItems] = useMemo(() => {
+    if (!safeData.length) return [[], []]; // Handle empty data
+
     let heights = new Array(columns).fill(0);
-    let gridItems = data.map((child) => {
+    let gridItems = safeData.map((child) => {
       const column = heights.indexOf(Math.min(...heights));
       const x = (width / columns) * column;
       const y = (heights[column] += child.height / 2) - child.height / 2;
@@ -53,8 +61,9 @@ const Client = ({ data }) => {
         height: child.height / 2,
       };
     });
+
     return [heights, gridItems];
-  }, [columns, data, width]);
+  }, [columns, safeData, width]);
 
   const transitions = useTransition(gridItems, {
     keys: (item) => item.id,
@@ -70,7 +79,7 @@ const Client = ({ data }) => {
     <div
       ref={ref}
       className="relative w-full h-full"
-      style={{ height: Math.max(...heights) }}
+      style={{ height: heights.length ? Math.max(...heights) : "auto" }}
     >
       {transitions((style, item) => (
         <a.div

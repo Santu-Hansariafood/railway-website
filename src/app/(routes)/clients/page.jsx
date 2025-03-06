@@ -15,7 +15,7 @@ const data = [
   { id: 10, image: "https://picsum.photos/id/103/200/300", height: 400 },
 ];
 
-const page = () => {
+const Page = () => {
   return (
     <Layout>
       <div className="p-8">
@@ -28,4 +28,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

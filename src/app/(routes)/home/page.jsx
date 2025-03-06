@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 const Home = dynamic(()=>import('@/app/components/ui/Home/Home'))
 const Layout = dynamic(()=>import('@/app/layouts/layout'))
 
-const page = () => {
+const Page = () => {
   return (
     <Layout>
       <Home/>
@@ -12,4 +12,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
