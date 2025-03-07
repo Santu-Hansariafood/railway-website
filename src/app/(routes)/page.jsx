@@ -1,9 +1,14 @@
+import Home from "@/app/components/ui/Home/Home";
+import About from "@/app/components/ui/About/About";
+import Services from "@/app/components/ui/Services/Services";
 
-
-const Page = () => {
+export default function HomePage() {
   return (
-    <div>Page</div>
-  )
+    <main>
+      <Home />
+      <About />
+      <Services />
+      <Contact />
+    </main>
+  );
 }
-
-export default Page
